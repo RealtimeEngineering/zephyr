@@ -153,7 +153,7 @@ manifest:
     - name: IoBus
       path: rte/iobus
       url: https://github.com/RealtimeEngineering/iobus
-      revision: 36aa157f3612f35d6cc7cd90a0c501bf951f5b5a
+      revision: a335de8eebc175c1d3375bb764865cf78219beb5
 
   self:
     path: zephyr
