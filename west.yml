@@ -75,7 +75,8 @@ manifest:
       revision: b52fdbf4b62439be9fab9bb4bae9690a42d2fb14
       path: modules/hal/st
     - name: hal_stm32
-      revision: cc8731dba4fd9c57d7fe8ea6149828b89c2bd635
+      url: https://github.com/RealtimeEngineering/hal_stm32
+      revision: 257c26c17af31f87cb70c2f398d3af17e448ad05
       path: modules/hal/stm32
     - name: hal_ti
       revision: 277d70a65ab14d46bf1ec0935cf9bb28bbaa8ab9
@@ -94,8 +95,9 @@ manifest:
       revision: 24d84ecff195fb15c889d9046e44e4804d626c67
       path: modules/crypto/mbedtls
     - name: mcuboot
-      revision: 3fc59410b633a6d83bbb534e43aac43160f9bd32
       path: bootloader/mcuboot
+      url: https://github.com/RealtimeEngineering/mcuboot
+      revision: 1de4877237db971f60cd1944a54f507cf31c728f
     - name: mcumgr
       revision: 43845e883ff3a6cdaae22e23f3e60b5fcf78c6ba
       path: modules/lib/mcumgr
@@ -151,7 +153,7 @@ manifest:
     - name: IoBus
       path: rte/iobus
       url: https://github.com/RealtimeEngineering/iobus
-      revision: 1c24ed2d1bd6301f0dacadbad253ab5c721067f7
+      revision: 36aa157f3612f35d6cc7cd90a0c501bf951f5b5a
 
   self:
     path: zephyr
