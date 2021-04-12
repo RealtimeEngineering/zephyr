@@ -46,17 +46,37 @@
             gpios = <&gpioc 0 GPIO_ACTIVE_HIGH>;
             label = "User LD3";
         };
+        iobus_led: led_3 {
+            gpios = <&gpioa 6 GPIO_ACTIVE_LOW>;
+            label = "IoBus LD1";
+        };
+        modbus1_led: led_4 {
+            gpios = <&gpioe 13 GPIO_ACTIVE_LOW>;
+            label = "Modbus LD1";
+        };
+        modbus2_led: led_5 {
+            gpios = <&gpioe 14 GPIO_ACTIVE_LOW>;
+            label = "Modbus LD2";
+        };
         reset_eth: reset_0 {
             gpios = <&gpioe 12 GPIO_ACTIVE_LOW>;
             label = "Ethernet RST";
+        };
+        reset_wifi: reset_1 {
+            gpios = <&gpioe 4 GPIO_ACTIVE_LOW>;
+            label = "Wifi RST";
         };
     };
 
     aliases {
         rsteth = &reset_eth;
+        rstwifi = &reset_wifi;
         led0 = &run_led;
         led1 = &error_led;
         led2 = &cloud_led;
+        led3 = &iobus_led;
+        led4 = &modbus1_led;
+        led5 = &modbus2_led;
     };
 };
 
