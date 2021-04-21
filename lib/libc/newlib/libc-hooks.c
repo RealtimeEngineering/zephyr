@@ -396,12 +396,13 @@ void *_sbrk_r(struct _reent *r, int count)
 }
 #endif /* CONFIG_XTENSA */
 
+#include <posix/time.h>
+
 struct timeval;
 
 int _gettimeofday(struct timeval *__tp, void *__tzp)
 {
-	ARG_UNUSED(__tp);
 	ARG_UNUSED(__tzp);
 
-	return -1;
+	return gettimeofday( __tp, NULL );
 }
