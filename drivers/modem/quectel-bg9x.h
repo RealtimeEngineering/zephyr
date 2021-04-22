@@ -122,12 +122,12 @@ static struct modem_pin modem_pins[] = {
 	/* MDM_POWER */
 	MODEM_PIN(DT_INST_GPIO_LABEL(0, mdm_power_gpios),
 		  DT_INST_GPIO_PIN(0, mdm_power_gpios),
-		  DT_INST_GPIO_FLAGS(0, mdm_power_gpios) | GPIO_OUTPUT_LOW),
+		  DT_INST_GPIO_FLAGS(0, mdm_power_gpios) | GPIO_OUTPUT_INACTIVE),
 
 	/* MDM_RESET */
 	MODEM_PIN(DT_INST_GPIO_LABEL(0, mdm_reset_gpios),
 		  DT_INST_GPIO_PIN(0, mdm_reset_gpios),
-		  DT_INST_GPIO_FLAGS(0, mdm_reset_gpios) | GPIO_OUTPUT_LOW),
+		  DT_INST_GPIO_FLAGS(0, mdm_reset_gpios) | GPIO_OUTPUT_ACTIVE),
 
 #if DT_INST_NODE_HAS_PROP(0, mdm_dtr_gpios)
 	/* MDM_DTR */

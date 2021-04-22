@@ -3,7 +3,6 @@
  * Copyright (c) 2020 Alexander Kozhinov <AlexanderKozhinov@yandex.com>
  * SPDX-License-Identifier: Apache-2.0
  */
-
 #define DT_DRV_COMPAT st_stm32_ethernet
 
 #define LOG_MODULE_NAME eth_stm32_hal

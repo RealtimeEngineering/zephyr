@@ -903,6 +903,10 @@ static void modem_rssi_query_work(struct k_work *work)
 /* Func: pin_init
  * Desc: Boot up the Modem.
  */
+
+#define PIN_FUNCTION_ACTIVE 1
+#define PIN_FUNCTION_INACTIVE 0
+
 static void pin_init(void)
 {
 	LOG_INF("Setting Modem Pins");
@@ -911,15 +915,21 @@ static void pin_init(void)
 	 * Power key pin.
 	 */
 
-	/* MDM_POWER -> 1 for 500-1000 msec. */
-	modem_pin_write(&mctx, MDM_POWER, 1);
+	/* MDM_POWER -> INACTIVE for 500-1000 msec. */
+	modem_pin_write(&mctx, MDM_POWER, PIN_FUNCTION_ACTIVE);
 	k_sleep(K_MSEC(750));
 
-	/* MDM_POWER -> 0 and wait for ~2secs as UART remains in "inactive" state
+	/* MDM_POWER -> ACTIVE and wait for ~2secs as UART remains in "inactive" state
 	 * for some time after the power signal is enabled.
 	 */
-	modem_pin_write(&mctx, MDM_POWER, 0);
+	modem_pin_write(&mctx, MDM_POWER, PIN_FUNCTION_ACTIVE);
+
+    modem_pin_write(&mctx, MDM_RESET, PIN_FUNCTION_ACTIVE);
+    k_sleep(K_MSEC(250));
+    modem_pin_write(&mctx, MDM_RESET, PIN_FUNCTION_INACTIVE);
+
 	k_sleep(K_SECONDS(2));
+
 
 	LOG_INF("... Done!");
 }

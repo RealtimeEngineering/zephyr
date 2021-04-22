@@ -66,8 +66,19 @@
             gpios = <&gpioe 4 GPIO_ACTIVE_LOW>;
             label = "Wifi RST";
         };
+/*        
+        modem_reset: reset_2 {
+            gpios = <&gpiod 3 GPIO_ACTIVE_LOW>;
+            label = "Modem RST";
+        };
+        modem_enable: enable_1 {
+            gpios = <&gpiod 6 GPIO_ACTIVE_HIGH>;
+            label = "Modem Power Enable";
+        };
+*/        
     };
 
+	
     aliases {
         rsteth = &reset_eth;
         rstwifi = &reset_wifi;
@@ -84,6 +95,20 @@
     pinctrl-0 = <&usart1_tx_pa9 &usart1_rx_pb15 &usart1_cts_pa11 &usart1_rts_pa12>;
     current-speed = <115200>;
     status = "okay";
+
+    quectel_bg9x {
+		compatible = "quectel,bg9x";
+		label      = "quectel-bg9x";
+		status     = "okay";
+
+		mdm-power-gpios = <&gpiod 6 GPIO_ACTIVE_HIGH>;
+		mdm-reset-gpios = <&gpiod 3 GPIO_ACTIVE_LOW>;
+/*
+		mdm-power-gpios = <&gpiod 6 GPIO_ACTIVE_HIGH>;
+		mdm-reset-gpios = <&gpiod 3 GPIO_ACTIVE_LOW>;
+		mdm-dtr-gpios   = <&gpio0 22 0>; */
+	};
+
 };
 
 &usart2 {
