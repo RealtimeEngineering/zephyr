@@ -8,12 +8,22 @@
 
 / {
 	soc {
-		flash-controller@52002000 {
-			flash0: flash@8000000 {
-				write-block-size = <32>;
-				erase-block-size = <DT_SIZE_K(128)>;
-			};
-		};
+        flash-controller@52002000 {
+            flash0: flash@8000000 {
+                compatible = "soc-nv-flash";
+                write-block-size = <32>;
+                erase-block-size = <DT_SIZE_K(128)>;
+            };
+            flash1: flash@8100000 {
+                compatible = "soc-nv-flash";
+                write-block-size = <32>;
+                erase-block-size = <DT_SIZE_K(128)>;
+            };
+        };
+
+        dmamux1: dmamux@40020800 {
+            dma-requests= <107>;
+        };
 	};
 
     /* System data RAM accessible over AXI bus: AXI SRAM in D1 domain */
