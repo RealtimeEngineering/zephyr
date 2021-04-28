@@ -100,7 +100,7 @@ bool flash_stm32_valid_range(const struct device *dev, off_t offset,
 #endif
 
 	if (write) {
-		if ((offset % FLASH_NB_32BITWORD_IN_FLASHWORD * 4) != 0) {
+		if ((offset % (FLASH_NB_32BITWORD_IN_FLASHWORD * 4)) != 0) {
 			LOG_ERR("Write offset not aligned on flashword length. "
 				"Offset: 0x%lx, flashword length: %d",
 				(unsigned long) offset, FLASH_NB_32BITWORD_IN_FLASHWORD * 4);
@@ -235,7 +235,7 @@ static int erase_sector(const struct device *dev, int offset)
 		return rc;
 	}
 
-	*(sector.cr) &= ~FLASH_CR_SNB;
+	*(sector.cr) &= FLASH_CR_SNB;
 	*(sector.cr) |= (FLASH_CR_SER
 		| ((sector.sector_index << FLASH_CR_SNB_Pos) & FLASH_CR_SNB));
 	*(sector.cr) |= FLASH_CR_START;
@@ -253,8 +253,7 @@ int flash_stm32_block_erase_loop(const struct device *dev,
 				 unsigned int offset,
 				 unsigned int len)
 {
-	unsigned int address = offset;
-	int rc = 0;
+	unsigned int address = offset, rc = 0;
 
 	for (; address <= offset + len - 1 ; address += FLASH_SECTOR_SIZE) {
 		rc = erase_sector(dev, address);
@@ -383,9 +382,12 @@ static int flash_stm32h7_write_protection(const struct device *dev, bool enable)
 
 	int rc = 0;
 
+	flash_stm32_sem_take(dev);
+
 	if (enable) {
 		rc = flash_stm32_wait_flash_idle(dev);
 		if (rc) {
+			flash_stm32_sem_give(dev);
 			return rc;
 		}
 	}
@@ -417,6 +419,8 @@ static int flash_stm32h7_write_protection(const struct device *dev, bool enable)
 		LOG_DBG("Disable write protection");
 	}
 
+	flash_stm32_sem_give(dev);
+
 	return rc;
 }
 
@@ -433,8 +437,7 @@ static void flash_stm32h7_flush_caches(const struct device *dev,
 static int flash_stm32h7_erase(const struct device *dev, off_t offset,
 			       size_t len)
 {
-	int rc, rc2;
-
+	int rc;
 #ifdef CONFIG_CPU_CORTEX_M7
 	/* Flush whole sectors */
 	off_t flush_offset = ROUND_DOWN(offset, FLASH_SECTOR_SIZE);
@@ -456,11 +459,6 @@ static int flash_stm32h7_erase(const struct device *dev, off_t offset,
 
 	LOG_DBG("Erase offset: %ld, len: %zu", (long) offset, len);
 
-	rc = flash_stm32h7_write_protection(dev, false);
-	if (rc) {
-		goto done;
-	}
-
 	rc = flash_stm32_block_erase_loop(dev, offset, len);
 
 #ifdef CONFIG_CPU_CORTEX_M7
@@ -472,12 +470,6 @@ static int flash_stm32h7_erase(const struct device *dev, off_t offset,
 		LOG_ERR("Cortex M4: ART enabled not supported by flash driver");
 	}
 #endif /* CONFIG_CPU_CORTEX_M7 */
-done:
-	rc2 = flash_stm32h7_write_protection(dev, true);
-
-	if (!rc) {
-		rc = rc2;
-	}
 
 	flash_stm32_sem_give(dev);
 
@@ -504,16 +496,7 @@ static int flash_stm32h7_write(const struct device *dev, off_t offset,
 
 	LOG_DBG("Write offset: %ld, len: %zu", (long) offset, len);
 
-	rc = flash_stm32h7_write_protection(dev, false);
-	if (!rc) {
-		rc = flash_stm32_write_range(dev, offset, data, len);
-	}
-
-	int rc2 = flash_stm32h7_write_protection(dev, true);
-
-	if (!rc) {
-		rc = rc2;
-	}
+	rc = flash_stm32_write_range(dev, offset, data, len);
 
 	flash_stm32_sem_give(dev);
 
@@ -605,11 +588,12 @@ void flash_stm32_page_layout(const struct device *dev,
 
 static struct flash_stm32_priv flash_data = {
 	.regs = (FLASH_TypeDef *) DT_INST_REG_ADDR(0),
-	.pclken = { .bus = DT_INST_CLOCKS_CELL(0, bus),
-		    .enr = DT_INST_CLOCKS_CELL(0, bits)},
+	.pclken = { .bus = STM32_CLOCK_BUS_AHB3,
+		    .enr = LL_AHB3_GRP1_PERIPH_FLASH },
 };
 
 static const struct flash_driver_api flash_stm32h7_api = {
+	.write_protection = flash_stm32h7_write_protection,
 	.erase = flash_stm32h7_erase,
 	.write = flash_stm32h7_write,
 	.read = flash_stm32h7_read,
@@ -622,7 +606,7 @@ static const struct flash_driver_api flash_stm32h7_api = {
 static int stm32h7_flash_init(const struct device *dev)
 {
 	struct flash_stm32_priv *p = FLASH_STM32_PRIV(dev);
-	const struct device *clk = DEVICE_DT_GET(STM32_CLOCK_CONTROL_NODE);
+	const struct device *clk = device_get_binding(STM32_CLOCK_CONTROL_NAME);
 
 	/* enable clock */
 	if (clock_control_on(clk, (clock_control_subsys_t *)&p->pclken) != 0) {
@@ -650,6 +634,6 @@ static int stm32h7_flash_init(const struct device *dev)
 }
 
 
-DEVICE_DT_INST_DEFINE(0, stm32h7_flash_init, NULL,
+DEVICE_DT_INST_DEFINE(0, stm32h7_flash_init, device_pm_control_nop,
 		    &flash_data, NULL, POST_KERNEL,
 		    CONFIG_KERNEL_INIT_PRIORITY_DEVICE, &flash_stm32h7_api);
