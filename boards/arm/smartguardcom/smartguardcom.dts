@@ -20,9 +20,7 @@
 		zephyr,flash = &flash0;
 		zephyr,dtcm = &dtcm;
 		zephyr,code-partition = &slot0_partition;
-/*
         zephyr,flash-controller = &w25q128jvsim;
-*/
 	};
 
 	/*
@@ -239,14 +237,14 @@
         status = "okay";
 
         partitions {
-            compatible = "fixed-partitions";
-            #address-cells = <1>;
-            #size-cells = <1>;
+          compatible = "fixed-partitions";
+          #address-cells = <1>;
+          #size-cells = <1>;
 
-            fs_storage_partition: partition@0 {
-                label = "fs_storage";
-                reg = <0x00000000 DT_SIZE_M(16)>;
-            };
+          fs_storage_partition: partition@0 {
+              label = "fs_storage";
+              reg = <0x00000000 DT_SIZE_M(16)>;
+          };
         };
     };
 };
