@@ -230,19 +230,19 @@ config CLOCK_STM32_MCO1_SRC_NOCLOCK
 
 config CLOCK_STM32_MCO1_SRC_LSE
 	bool "LSE"
-	depends on SOC_SERIES_STM32F4X
+	depends on SOC_SERIES_STM32F4X || SOC_SERIES_STM32H7X
 	help
 	  Use LSE as source of MCO1
 
 config CLOCK_STM32_MCO1_SRC_HSE
 	bool "HSE"
-	depends on SOC_SERIES_STM32F4X
+	depends on SOC_SERIES_STM32F4X || SOC_SERIES_STM32H7X
 	help
 	  Use HSE as source of MCO1
 
 config CLOCK_STM32_MCO1_SRC_HSI
 	bool "HSI"
-	depends on SOC_SERIES_STM32F4X
+	depends on SOC_SERIES_STM32F4X || SOC_SERIES_STM32H7X
 	help
 	  Use HSI as source of MCO1
 
@@ -251,6 +251,18 @@ config CLOCK_STM32_MCO1_SRC_PLLCLK
 	depends on SOC_SERIES_STM32F4X
 	help
 	  Use PLLCLK as source of MCO1
+
+config CLOCK_STM32_MCO2_SRC_RC48
+	bool "RC48"
+	depends on SOC_SERIES_STM32H7X
+	help
+	  Use RC48 as source of MCO2
+
+config CLOCK_STM32_MCO2_SRC_PLL1Q
+	bool "PLL1Q"
+	depends on SOC_SERIES_STM32H7X
+	help
+	  Use PLL1Q as source of MCO2
 
 endchoice
 
@@ -273,7 +285,7 @@ config CLOCK_STM32_MCO2_SRC_NOCLOCK
 
 config CLOCK_STM32_MCO2_SRC_SYSCLK
 	bool "SYSCLK"
-	depends on SOC_SERIES_STM32F4X
+	depends on SOC_SERIES_STM32F4X || SOC_SERIES_STM32H7X
 	help
 	  Use SYSCLK as source of MCO2
 
@@ -283,9 +295,15 @@ config CLOCK_STM32_MCO2_SRC_PLLI2S
 	help
 	  Use PLLI2S as source of MCO2
 
+config CLOCK_STM32_MCO2_SRC_PLL2P
+	bool "PLL2P"
+	depends on SOC_SERIES_STM32H7X
+	help
+	  Use PLL2P as source of MCO2
+
 config CLOCK_STM32_MCO2_SRC_HSE
 	bool "HSE"
-	depends on SOC_SERIES_STM32F4X
+	depends on SOC_SERIES_STM32F4X || SOC_SERIES_STM32H7X
 	help
 	  Use HSE as source of MCO2
 
@@ -294,6 +312,24 @@ config CLOCK_STM32_MCO2_SRC_PLLCLK
 	depends on SOC_SERIES_STM32F4X
 	help
 	  Use PLLCLK as source of MCO2
+
+config CLOCK_STM32_MCO2_SRC_PLL1P
+	bool "PLL1P"
+	depends on SOC_SERIES_STM32H7X
+	help
+	  Use PLL1P as source of MCO2
+
+config CLOCK_STM32_MCO2_SRC_CSI
+	bool "CSI"
+	depends on SOC_SERIES_STM32H7X
+	help
+	  Use CSI as source of MCO2
+
+config CLOCK_STM32_MCO2_SRC_LSI
+	bool "LSI"
+	depends on SOC_SERIES_STM32H7X
+	help
+	  Use LSI as source of MCO2
 
 endchoice
 
