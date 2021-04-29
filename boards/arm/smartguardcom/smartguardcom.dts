@@ -187,11 +187,11 @@
 			read-only;
 		};
 
-		/* storage: 128KB for settings */
-		storage_partition: partition@20000 {
-			label = "storage";
-			reg = <0x00020000 0x00020000>;
-		};
+//		/* storage: 128KB for settings */
+//		storage_partition: partition@20000 {
+//			label = "storage";
+//			reg = <0x00020000 0x00020000>;
+//		};
 
 		/* application image slot: 256KB */
 		slot0_partition: partition@40000 {
@@ -230,21 +230,21 @@
         compatible = "st,stm32-qspi-nor";
         label = "W25Q128JVSIM";
         reg = <0>;
-        qspi-max-frequency = <50000000>;
+        qspi-max-frequency = <100000000>;
         /* 128 Megabits = 16 Megabytes */
         size = <0x8000000>;
 
         status = "okay";
 
         partitions {
-          compatible = "fixed-partitions";
-          #address-cells = <1>;
-          #size-cells = <1>;
+            compatible = "fixed-partitions";
+            #address-cells = <1>;
+            #size-cells = <1>;
 
-          fs_storage_partition: partition@0 {
-              label = "fs_storage";
-              reg = <0x00000000 DT_SIZE_M(16)>;
-          };
+            fs_storage_partition: partition@0 {
+                label = "storage";
+                reg = <0x00000000 DT_SIZE_M(16)>;
+            };
         };
     };
 };
