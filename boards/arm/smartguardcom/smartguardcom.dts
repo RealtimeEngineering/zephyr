@@ -1,0 +1,214 @@
+/*
+ * Copyright (c) 2021 RealTime Engineering AG
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+/dts-v1/;
+#include <st/h7/stm32h743Xi.dtsi>
+#include <st/h7/stm32h743vitx-pinctrl.dtsi>
+#include "arduino_r3_connector.dtsi"
+
+/ {
+	model = "RTE Smart Guard Com Board";
+	compatible = "st,smartguardcom";
+
+	chosen {
+		zephyr,console = &uart4;
+		zephyr,shell-uart = &uart4;
+		zephyr,sram = &sram0;
+		zephyr,flash = &flash0;
+		zephyr,dtcm = &dtcm;
+		zephyr,code-partition = &slot0_partition;
+	};
+
+	/*
+	resets {
+       compatible = "gpio-resets";
+        reset_eth: reset_0 {
+            gpios = <&gpioe 12 GPIO_ACTIVE_LOW>;
+            label = "Ethernet RST";
+        };
+    };
+    */
+
+    leds {
+        compatible = "gpio-leds";
+        run_led: led_0 {
+            gpios = <&gpioa 10 GPIO_ACTIVE_LOW>;
+            label = "User LD1";
+        };
+        error_led: led_1 {
+            gpios = <&gpioa 8 GPIO_ACTIVE_LOW>;
+            label = "User LD2";
+        };
+        cloud_led: led_2 {
+            gpios = <&gpioc 0 GPIO_ACTIVE_HIGH>;
+            label = "User LD3";
+        };
+        iobus_led: led_3 {
+            gpios = <&gpioa 6 GPIO_ACTIVE_LOW>;
+            label = "IoBus LD1";
+        };
+        modbus1_led: led_4 {
+            gpios = <&gpioe 13 GPIO_ACTIVE_LOW>;
+            label = "Modbus LD1";
+        };
+        modbus2_led: led_5 {
+            gpios = <&gpioe 14 GPIO_ACTIVE_LOW>;
+            label = "Modbus LD2";
+        };
+        reset_eth: reset_0 {
+            gpios = <&gpioe 12 GPIO_ACTIVE_LOW>;
+            label = "Ethernet RST";
+        };
+        reset_wifi: reset_1 {
+            gpios = <&gpioe 4 GPIO_ACTIVE_LOW>;
+            label = "Wifi RST";
+        };
+    };
+
+    aliases {
+        rsteth = &reset_eth;
+        rstwifi = &reset_wifi;
+        led0 = &run_led;
+        led1 = &error_led;
+        led2 = &cloud_led;
+        led3 = &iobus_led;
+        led4 = &modbus1_led;
+        led5 = &modbus2_led;
+    };
+};
+
+&usart1 {
+    pinctrl-0 = <&usart1_tx_pa9 &usart1_rx_pb15 &usart1_cts_pa11 &usart1_rts_pa12>;
+    current-speed = <115200>;
+    status = "okay";
+};
+
+&usart2 {
+    pinctrl-0 = <&usart2_tx_pd5 &usart2_rx_pa3 &usart2_cts_pa0 &usart2_rts_pd4>;
+    current-speed = <115200>;
+    status = "okay";
+};
+
+&usart3 {
+	pinctrl-0 = <&usart3_tx_pd8 &usart3_rx_pd9>;
+	current-speed = <230400>;
+};
+
+&uart4 {
+    pinctrl-0 = <&uart4_tx_pc10 &uart4_rx_pc11>;
+    current-speed = <115200>;
+    status = "okay";
+};
+
+&uart5 {
+    pinctrl-0 = <&uart5_tx_pc12 &uart5_rx_pd2>;
+    current-speed = <115200>;
+    status = "okay";
+};
+
+&uart7 {
+    pinctrl-0 = <&uart7_tx_pe8 &uart7_rx_pe7>;
+    current-speed = <115200>;
+    status = "okay";
+};
+
+&uart8 {
+    pinctrl-0 = <&uart8_tx_pe1 &uart8_rx_pe0>;
+    current-speed = <115200>;
+    status = "okay";
+};
+
+&rtc {
+	status = "okay";
+};
+
+&i2c1 {
+	pinctrl-0 = <&i2c1_scl_pb6 &i2c1_sda_pb7>;
+	status = "okay";
+	clock-frequency = <I2C_BITRATE_FAST>;
+};
+
+&i2c4 {
+    pinctrl-0 = <&i2c4_scl_pb8 &i2c4_sda_pb9>;
+    status = "okay";
+    clock-frequency = <I2C_BITRATE_FAST>;
+};
+
+&adc1 {
+	pinctrl-0 = <&adc1_inp9_pb0 >;
+	status = "okay";
+};
+
+&rng {
+	status = "okay";
+};
+
+/*
+ * WARNING:
+ * Possible pin conflicts:
+ *          The pins PA2 and PB13 may conflict on selection of ETH_STM32_HAL,
+ *          since they are used in ST Zio or ST morpho connectors.
+ *          To avoid conflicting states the jumpers JP6 and JP7
+ *          must be in ON state.
+ */
+&mac {
+	pinctrl-0 = <&eth_mdc_pc1
+		     &eth_rxd0_pc4
+		     &eth_rxd1_pc5
+		     &eth_ref_clk_pa1
+		     &eth_mdio_pa2
+		     &eth_crs_dv_pa7
+		     &eth_tx_en_pb11
+		     &eth_txd0_pb12
+		     &eth_txd1_pb13
+		     &mco2_pc9>;
+    status = "okay";
+};
+
+&spi1 {
+	pinctrl-0 = <&spi1_sck_pa5 &spi1_miso_pb4 &spi1_mosi_pd7 &spi1_nss_pa4>;
+    status = "okay";
+};
+
+&flash0 {
+	partitions {
+		compatible = "fixed-partitions";
+		#address-cells = <1>;
+		#size-cells = <1>;
+
+		/* 128KB for bootloader */
+		boot_partition: partition@0 {
+			label = "mcuboot";
+			reg = <0x00000000 0x00020000>;
+			read-only;
+		};
+
+		/* storage: 128KB for settings */
+		storage_partition: partition@20000 {
+			label = "storage";
+			reg = <0x00020000 0x00020000>;
+		};
+
+		/* application image slot: 256KB */
+		slot0_partition: partition@40000 {
+			label = "image-0";
+			reg = <0x00040000 0x00040000>;
+		};
+
+		/* backup slot: 256KB */
+		slot1_partition: partition@80000 {
+			label = "image-1";
+			reg = <0x00080000 0x00040000>;
+		};
+
+		/* swap slot: 128KB */
+		scratch_partition: partition@c0000 {
+			label = "image-scratch";
+			reg = <0x000c0000 0x00020000>;
+		};
+
+	};
+};

@@ -1,0 +1,1 @@
+/home/raphael/MeierTobler/SmartHome/zephyrproject/zephyr/share/zephyr-package/cmake
