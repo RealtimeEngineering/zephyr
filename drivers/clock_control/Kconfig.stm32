@@ -252,13 +252,13 @@ config CLOCK_STM32_MCO1_SRC_PLLCLK
 	help
 	  Use PLLCLK as source of MCO1
 
-config CLOCK_STM32_MCO2_SRC_RC48
+config CLOCK_STM32_MCO1_SRC_RC48
 	bool "RC48"
 	depends on SOC_SERIES_STM32H7X
 	help
 	  Use RC48 as source of MCO2
 
-config CLOCK_STM32_MCO2_SRC_PLL1Q
+config CLOCK_STM32_MCO1_SRC_PLL1Q
 	bool "PLL1Q"
 	depends on SOC_SERIES_STM32H7X
 	help
