@@ -170,8 +170,21 @@
 };
 
 &spi1 {
-	pinctrl-0 = <&spi1_sck_pa5 &spi1_miso_pb4 &spi1_mosi_pd7 &spi1_nss_pa4>;
+	pinctrl-0 = <&spi1_sck_pa5 &spi1_miso_pb4 &spi1_mosi_pd7>;
+	cs-gpios = <&gpioa 4 GPIO_ACTIVE_LOW>;
     status = "okay";
+
+    eeprom0: eeprom@0 {
+    		compatible = "atmel,at25";
+    		reg = <0>;
+    		label = "EEPROM_0";
+    		size = <65536>;
+    		pagesize = <128>;
+    		address-width = <16>;
+    		timeout = <5>;
+    		spi-max-frequency = <1000000>;
+
+    	};
 };
 
 &flash0 {
