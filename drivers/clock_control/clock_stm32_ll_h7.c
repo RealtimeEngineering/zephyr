@@ -734,8 +734,8 @@ static int stm32_clock_control_init(const struct device *dev)
 
 #endif /* CONFIG_CPU_CORTEX_M4 */
 
-#if STM32_PLL2_ENABLE
-    /* Initialize PLL 2 */
+#if STM32_PLL2_ENABLE \
+	/* Initialize PLL 2 */
 	r = get_vco_input_range(STM32_PLL2_M_DIVISOR, &vco_input_range);
 	if (r < 0) {
 		return r;
@@ -804,10 +804,10 @@ static int stm32_clock_control_init(const struct device *dev)
 	}
 #endif /* STM32_PLL3_ENABLE */
 
-    /* configure MCO1/MCO2 based on Kconfig */
-    stm32_clock_control_mco_init();
+	/* configure MCO1/MCO2 based on Kconfig */
+	stm32_clock_control_mco_init();
 
-    /* Set systick to 1ms */
+	/* Set systick to 1ms */
 	SysTick_Config(CONFIG_SYS_CLOCK_HW_CYCLES_PER_SEC / 1000);
 	/* Update CMSIS variable */
 	SystemCoreClock = CONFIG_SYS_CLOCK_HW_CYCLES_PER_SEC;
