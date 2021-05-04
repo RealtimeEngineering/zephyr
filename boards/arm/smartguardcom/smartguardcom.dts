@@ -23,16 +23,6 @@
         zephyr,flash-controller = &w25q128jvsim;
 	};
 
-	/*
-	resets {
-       compatible = "gpio-resets";
-        reset_eth: reset_0 {
-            gpios = <&gpioe 12 GPIO_ACTIVE_LOW>;
-            label = "Ethernet RST";
-        };
-    };
-    */
-
     leds {
         compatible = "gpio-leds";
         run_led: led_0 {
@@ -79,6 +69,33 @@
         led4 = &modbus1_led;
         led5 = &modbus2_led;
     };
+};
+
+&clk_hse {
+//	hse-bypass;
+	clock-frequency = <DT_FREQ_M(16)>;
+	status = "okay";
+};
+
+&pll {
+	div-m = <1>;
+	mul-n = <50>;
+	div-p = <2>;
+	div-q = <8>;
+	div-r = <2>;
+	clocks = <&clk_hse>;
+	status = "okay";
+};
+
+&rcc {
+	clocks = <&pll>;
+	clock-frequency = <DT_FREQ_M(400)>;
+	d1cpre = <1>;
+	hpre = <2>;    /* HCLK: 200 MHz */
+	d1ppre = <2>;  /* APB1: 100 MHz */
+	d2ppre1 = <2>; /* APB2: 100 MHz */
+	d2ppre2 = <2>; /* APB3: 100 MHz */
+	d3ppre = <2>;  /* APB4: 100 MHz */
 };
 
 &usart1 {
@@ -182,7 +199,7 @@
     		pagesize = <128>;
     		address-width = <16>;
     		timeout = <5>;
-    		spi-max-frequency = <1000000>;
+    		spi-max-frequency = <20000000>;
 
     	};
 };
