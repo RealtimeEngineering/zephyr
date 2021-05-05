@@ -80,9 +80,17 @@
 &pll {
 	div-m = <1>;
 	mul-n = <50>;
-	div-p = <2>;
-	div-q = <8>;
-	div-r = <2>;
+	div-p = <2>;  /* 400MHz */
+	div-q = <8>;  /* 100MHz */
+	div-r = <2>;  /* 400MHz */
+	clocks = <&clk_hse>;
+	status = "okay";
+};
+
+&pll2 {
+	div-m = <4>;
+	mul-n = <100>;
+	div-p = <16>;  /* 25MHz */
 	clocks = <&clk_hse>;
 	status = "okay";
 };
