@@ -108,12 +108,27 @@
     pinctrl-0 = <&uart5_tx_pc12 &uart5_rx_pd2>;
     current-speed = <115200>;
     status = "okay";
+
+	modbus1 {
+		compatible = "zephyr,modbus-serial";
+		label = "MODBUS1";
+		status = "okay";
+		de-gpios = <&gpioc 8 GPIO_ACTIVE_HIGH>;	/* C8 */
+	};
+
 };
 
 &uart7 {
     pinctrl-0 = <&uart7_tx_pe8 &uart7_rx_pe7>;
     current-speed = <115200>;
     status = "okay";
+
+	modbus2 {
+		compatible = "zephyr,modbus-serial";
+		label = "MODBUS2";
+		status = "okay";
+		de-gpios = <&gpioe 9 GPIO_ACTIVE_HIGH>;	/* E9 */
+	};
 };
 
 &uart8 {
@@ -165,7 +180,8 @@
 		     &eth_tx_en_pb11
 		     &eth_txd0_pb12
 		     &eth_txd1_pb13
-		     &mco2_pc9>;
+/*		     &mco2_pc9 */
+            >;
     status = "okay";
 };
 

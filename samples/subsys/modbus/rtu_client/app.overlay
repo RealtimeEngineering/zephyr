@@ -4,13 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-&arduino_serial {
-	status = "okay";
-
-	modbus0 {
-		compatible = "zephyr,modbus-serial";
-		label = "MODBUS0";
-		status = "okay";
-		de-gpios = <&arduino_header 15 GPIO_ACTIVE_LOW>;	/* D9 */
-	};
-};
+// &arduino_serial {
+//	status = "okay";
+//
+//	modbus0 {
+//		compatible = "zephyr,modbus-serial";
+//		label = "MODBUS0";
+//		status = "okay";
+//		de-gpios = <&arduino_header 15 GPIO_ACTIVE_LOW>;	/* D9 */
+//	};
+//  ;
