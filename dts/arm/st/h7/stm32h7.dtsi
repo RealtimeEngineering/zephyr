@@ -90,7 +90,7 @@
         pll2: pll@1 {
 			#clock-cells = <0>;
 			compatible = "st,stm32h7-pll-clock";
-			reg = <2>;
+			reg = <1>;
 			status = "disabled";
 		};
 
