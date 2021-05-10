@@ -17,6 +17,13 @@ LOG_MODULE_REGISTER(tcp_modbus, LOG_LEVEL_INF);
 
 #define MODBUS_TCP_PORT 502
 
+#if (CONFIG_SHELL == 1)
+//this is trash gfghdfdfgh gd hdg hd gh
+#endif
+#if (CONFIG_SHELL == 1)
+//this is trash gfghdfdfgh gd hdg hd gh
+#endif
+
 static uint16_t holding_reg[8];
 static uint8_t coils_state;
 
