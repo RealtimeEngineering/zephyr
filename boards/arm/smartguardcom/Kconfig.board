@@ -6,3 +6,4 @@
 config BOARD_SMARTGUARDCOM
 	bool "Smart Guard Com Board"
 	depends on SOC_STM32H743XX
+	select USE_STM32_LL_GPIO
