@@ -155,6 +155,10 @@ manifest:
       repo-path: tensorflow
       path: modules/lib/tensorflow
       revision: dc70a45a7cc12c25726a32cd91b28be59e7bc596
+    - name: IoBus
+      path: rte/iobus
+      url: https://github.com/RealtimeEngineering/iobus
+      revision: a335de8eebc175c1d3375bb764865cf78219beb5
 
   self:
     path: zephyr

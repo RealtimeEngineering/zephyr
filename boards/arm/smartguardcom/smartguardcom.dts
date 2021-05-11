@@ -49,19 +49,19 @@
             gpios = <&gpioe 14 GPIO_ACTIVE_LOW>;
             label = "Modbus LD2";
         };
-        reset_eth: reset_0 {
-            gpios = <&gpioe 12 GPIO_ACTIVE_LOW>;
-            label = "Ethernet RST";
-        };
-        reset_wifi: reset_1 {
-            gpios = <&gpioe 4 GPIO_ACTIVE_LOW>;
-            label = "Wifi RST";
-        };
+//        reset_eth: reset_0 {
+//            gpios = <&gpioe 12 GPIO_ACTIVE_LOW>;
+//            label = "Ethernet RST";
+//        };
+//        reset_wifi: reset_1 {
+//            gpios = <&gpioe 4 GPIO_ACTIVE_LOW>;
+//            label = "Wifi RST";
+//        };
     };
 
     aliases {
-        rsteth = &reset_eth;
-        rstwifi = &reset_wifi;
+//        rsteth = &reset_eth;
+//        rstwifi = &reset_wifi;
         led0 = &run_led;
         led1 = &error_led;
         led2 = &cloud_led;

@@ -7,7 +7,6 @@
 #include <init.h>
 #include <soc.h>
 #include <stm32_ll_gpio.h>
-//#include <stm32h7xx_hal_gpio.h>
 
 static int board_smartguardcom_init(const struct device *dev)
 {
@@ -42,15 +41,7 @@ static int board_smartguardcom_init(const struct device *dev)
 	LL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 	LL_GPIO_ResetOutputPin(GPIOA,LL_GPIO_PIN_8);
 
-//	GPIO_InitTypeDef     GPIO_InitStruct;
-//	/* Workaround to set error LED */
-//	GPIO_InitStruct.Pin = GPIO_PIN_8;
-//	GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-//	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-//	GPIO_InitStruct.Pull = GPIO_NOPULL;
-//	//GPIO_InitStruct.Alternate = GPIO_AF_0;
-//	HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
-//	HAL_GPIO_WritePin(GPIOA,GPIO_PIN_8,GPIO_PIN_RESET);
+//	k_msleep(1);
 
 	return 0;
 }
